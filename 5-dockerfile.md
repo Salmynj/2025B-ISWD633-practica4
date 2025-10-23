@@ -51,20 +51,36 @@ docker build -t <nombre imagen>:<tag> .
 
  
 ### Ejecutar el archivo Dockerfile y construir una imagen en la versión 1.0
-No olvides verificar en qué directorio se encuentra el archivo Dockerfile
 ```
+docker build -t server-apache:1.0 .
+```
+No olvides verificar en qué directorio se encuentra el archivo Dockerfile
 
+Debido a que centos 7 es una versión que han dejado de dar soporte. Por esta razón, se recomienda utilizar alternativas modernas y compatibles como AlmaLinux
+El Dockerfile queda de esta manera: 
+```
+FROM almalinux:8
+RUN dnf update -y && dnf install httpd -y
+COPY ./web /var/www/html
+EXPOSE 80
+CMD ["apachectl", "-D", "FOREGROUND"]
 ```
 
 **¿Cuántos pasos se han ejecutado?**
 # RESPONDER 
+```
+Se han ejecutado 4 pasos
+```
 
 ### Inspeccionar la imagen creada
 # COMPLETAR CON UNA CAPTURA
+<img width="938" height="273" alt="image" src="https://github.com/user-attachments/assets/62dc8dc5-c218-497e-81fd-51944cb281f8" />
 
 **Modificar el archivo index.html para incluir su nombre y luego crear una nueva versión de la imagen anterior**
 **¿Cuántos pasos se han ejecutado? ¿Observa algo diferente en la creación de la imagen**
-
+```
+Se han ejecutado 3 pasos de los cuales no se ha vuelto a ejecutar el FROM 
+```
 ## Mecanismo de caché
 Docker usa un mecanismo de caché cuando crea imágenes para acelerar el proceso de construcción y evitar la repetición de pasos que no han cambiado. Cada instrucción en un Dockerfile crea una capa en la imagen final. Docker intenta reutilizar las capas de una construcción anterior si no han cambiado, lo que reduce significativamente el tiempo de construcción.
 
@@ -75,14 +91,20 @@ Docker usa un mecanismo de caché cuando crea imágenes para acelerar el proceso
 
 ### Crear un contenedor a partir de las imagen creada, mapear todos los puertos
 ```
-
+Docker run -d -P --name Server-salma salma-apache:2.0
 ```
 
 ### ¿Con que puerto host se está realizando el mapeo?
 # COMPLETAR CON LA RESPUESTA
+```
+El mapeo se esta realizando con el puerto 32768 
+```
 
 **¿Qué es una imagen huérfana?**
 # COMPLETAR CON LA RESPUESTA
+```
+Una imagen huérfana es una imagen que no tiene una etiqueta y que no esta asociada a ningun contenedor. 
+```
 
 ### Identificar imágenes huérfanas
 ```
